@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+@theme {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-paper: #eef1f4;
+  --color-panel: #ffffff;
+  --color-ink: #14213d;
+  --color-ink-2: #46526b;
+  --color-line: #d5dbe3;
+
+  --color-good: #17734d;
+  --color-good-soft: #e3f3ea;
+  --color-warn: #8f5f06;
+  --color-warn-soft: #fbf0d6;
+  --color-bad: #b02f2f;
+  --color-bad-soft: #fbe5e5;
+  --color-muted: #5b6678;
+  --color-muted-soft: #eceff3;
+  --color-trail: #4b47d6;
+  --color-trail-soft: #e9e8fb;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible { outline: 2px solid var(--color-trail); outline-offset: 2px; }
+
+.react-flow__attribution { display: none; }
+.react-flow__edge-path { transition: stroke 150ms; }
+.react-flow__handle { opacity: 0; pointer-events: none; }
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+.modal-in { animation: modal-in 160ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-in { animation: none; }
+  .react-flow__edge.animated path { animation: none !important; }
+}
