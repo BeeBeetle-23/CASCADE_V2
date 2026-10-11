@@ -1,0 +1,21 @@
+services:
+  api:
+    build: ./backend
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: sqlite:////data/cascade.db          # zero-config default
+      UPLOAD_DIR: /data/uploads
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}           # optional; empty = deterministic fallback
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+    volumes: ["cascade_data:/data"]
+  # Optional PostgreSQL:  docker compose --profile postgres up -d db
+  # then set DATABASE_URL=postgresql+psycopg://cascade:cascade@localhost:5432/cascade (local) for the API.
+  db:
+    image: postgres:16
+    profiles: ["postgres"]
+    environment: {POSTGRES_USER: cascade, POSTGRES_PASSWORD: cascade, POSTGRES_DB: cascade}
+    ports: ["5432:5432"]
+    volumes: ["pg_data:/var/lib/postgresql/data"]
+volumes:
+  cascade_data:
+  pg_data:
