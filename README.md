@@ -348,10 +348,6 @@ They run on fixed synthetic data and a mocked LLM client, so no network is neede
 
 We'd rather tell you than have you find out.
 
-- **Uploads are API-first.** The UI is the graph, the dashboard, the scenarios and the what-if tool. Uploading and reviewing PDFs currently happens through the API (Swagger makes it painless).
-- **No OCR.** Scanned PDFs are flagged `needs_ocr`, not read.
-- **Narrow scope on purpose.** Three document types, one entity, INR and lakh, one financial year. The architecture is general; the demo is deliberately small so every path is tested.
-- **Explanations are written by the engine,** as deterministic text built from the execution trace. An LLM narrator could sit on top, but it would be read-only: it may describe graph state, never change it.
 - **No document-trust ranking yet.** Suggesting which document deserves more authority, with human override, is on the list.
 - **Schema via `create_all`.** No Alembic migrations yet; use `python -m app.db.init_db --reset` after model changes (SQLite dev).
 
