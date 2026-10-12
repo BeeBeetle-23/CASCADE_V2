@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500" role="img" aria-labelledby="ttl dsc" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif">
+<title id="ttl">The trust boundary</title>
+<desc id="dsc">An LLM candidate claim passes through seven validation gates in code. Survivors become pending_review claims; failures are logged as claim_rejected.</desc>
+<defs>
+<linearGradient id="bgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B1020"/><stop offset="1" stop-color="#101A3C"/></linearGradient>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#1D2850"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+
+<rect width="1000" height="500" rx="16" fill="url(#bgG)"/>
+<rect width="1000" height="500" rx="16" fill="url(#dots)" opacity="0.55"/>
+<rect x="0.5" y="0.5" width="999" height="499" rx="16" fill="none" stroke="#26325A"/>
+
+<text x="28" y="40" font-size="22" fill="#E6EAF7" font-weight="800" text-anchor="start" >The LLM proposes. Code disposes.</text>
+<text x="28" y="64" font-size="14" fill="#8B97BE" font-weight="400" text-anchor="start" >Anything the model says has to survive these gates before it can touch a number.</text>
+<rect x="28" y="92" width="296" height="286" rx="12" fill="#1A1538" stroke="#A78BFA" stroke-width="1.6"/>
+<text x="44" y="120" font-size="11.5" fill="#A78BFA" font-weight="800" text-anchor="start" letter-spacing="1.8">LLM OUTPUT</text>
+<text x="44" y="140" font-size="12.5" fill="#8B97BE" font-weight="400" text-anchor="start" >untrusted candidate</text>
+<text x="44" y="174" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">{</text>
+<text x="44" y="195" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "claim_type": "gross_revenue_tax",</text>
+<text x="44" y="216" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "value": "80",</text>
+<text x="44" y="237" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "unit": "lakh",</text>
+<text x="44" y="258" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "page_number": 1,</text>
+<text x="44" y="279" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "source_excerpt":</text>
+<text x="44" y="300" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">    "Gross receipts 80",</text>
+<text x="44" y="321" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">  "confidence": 0.93</text>
+<text x="44" y="342" font-size="12" fill="#D6CCFF" font-weight="400" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" xml:space="preserve">}</text>
+<text x="44" y="364" font-size="10.5" fill="#8B97BE" font-weight="400" text-anchor="start" font-style="italic">shape illustrative; excerpt from sample_docs</text>
+<rect x="348" y="92" width="340" height="286" rx="12" fill="#0B2230" stroke="#22D3EE" stroke-opacity="0.7" stroke-width="1.6"/>
+<text x="364" y="114" font-size="11.5" fill="#22D3EE" font-weight="800" text-anchor="start" letter-spacing="1.8">SEVEN GATES, ALL IN CODE</text>
+<rect x="360" y="128" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="142.5" r="10" fill="#22D3EE"/>
+<text x="378" y="147" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >1</text>
+<text x="398" y="147.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Schema valid (types, ranges)</text>
+<rect x="360" y="163" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="177.5" r="10" fill="#22D3EE"/>
+<text x="378" y="182" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >2</text>
+<text x="398" y="182.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Claim type allowed for this document</text>
+<rect x="360" y="198" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="212.5" r="10" fill="#22D3EE"/>
+<text x="378" y="217" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >3</text>
+<text x="398" y="217.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Cited page exists</text>
+<rect x="360" y="233" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="247.5" r="10" fill="#22D3EE"/>
+<text x="378" y="252" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >4</text>
+<text x="398" y="252.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Excerpt found verbatim on that page</text>
+<rect x="360" y="268" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="282.5" r="10" fill="#22D3EE"/>
+<text x="378" y="287" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >5</text>
+<text x="398" y="287.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Value appears inside the excerpt</text>
+<rect x="360" y="303" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="317.5" r="10" fill="#22D3EE"/>
+<text x="378" y="322" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >6</text>
+<text x="398" y="322.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Unit recognised, normalised to lakh</text>
+<rect x="360" y="338" width="316" height="29" rx="8" fill="#0F3A4A" stroke="#22D3EE" stroke-opacity="0.45"/>
+<circle cx="378" cy="352.5" r="10" fill="#22D3EE"/>
+<text x="378" y="357" font-size="12" fill="#06202B" font-weight="800" text-anchor="middle" >7</text>
+<text x="398" y="357.5" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >Not a duplicate claim type</text>
+<rect x="728" y="92" width="244" height="146" rx="12" fill="#0E2B27" stroke="#34D399" stroke-width="1.6"/>
+<text x="744" y="120" font-size="11.5" fill="#34D399" font-weight="800" text-anchor="start" letter-spacing="1.8">ALL SEVEN PASS</text>
+<text x="744" y="146" font-size="18" fill="#E6EAF7" font-weight="800" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" >pending_review</text>
+<text x="744" y="170" font-size="12.5" fill="#B9F3DD" font-weight="400" text-anchor="start" >Claim created, provenance</text>
+<text x="744" y="188" font-size="12.5" fill="#B9F3DD" font-weight="400" text-anchor="start" >attached. Counts for nothing</text>
+<text x="744" y="206" font-size="12.5" fill="#B9F3DD" font-weight="400" text-anchor="start" >until a human verifies it.</text>
+<rect x="728" y="254" width="244" height="124" rx="12" fill="#34161B" stroke="#F87171" stroke-width="1.6"/>
+<text x="744" y="282" font-size="11.5" fill="#F87171" font-weight="800" text-anchor="start" letter-spacing="1.8">ANY GATE FAILS</text>
+<text x="744" y="308" font-size="18" fill="#E6EAF7" font-weight="800" text-anchor="start" font-family="ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace" >claim_rejected</text>
+<text x="744" y="332" font-size="12.5" fill="#FFD0D0" font-weight="400" text-anchor="start" >Logged with the exact reason.</text>
+<text x="744" y="350" font-size="12.5" fill="#FFD0D0" font-weight="400" text-anchor="start" >Never silently dropped, never</text>
+<text x="744" y="368" font-size="12.5" fill="#FFD0D0" font-weight="400" text-anchor="start" >trusted.</text>
+<path d="M326 235.0 L337 235.0" stroke="#A78BFA" stroke-width="2.4" stroke-dasharray="6 4" fill="none"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1.1s" repeatCount="indefinite"/></path>
+<path d="M335 229.0 L344 235.0 L335 241.0 z" fill="#A78BFA"/>
+<path d="M690 158 L717 158" stroke="#34D399" stroke-width="2.4" stroke-dasharray="6 4" fill="none"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1.1s" repeatCount="indefinite"/></path>
+<path d="M715 152 L724 158 L715 164 z" fill="#34D399"/>
+<path d="M690 324 L717 324" stroke="#F87171" stroke-width="2.4" stroke-dasharray="6 4" fill="none"><animate attributeName="stroke-dashoffset" from="0" to="-20" dur="1.1s" repeatCount="indefinite"/></path>
+<path d="M715 318 L724 324 L715 330 z" fill="#F87171"/>
+<rect x="28" y="398" width="300" height="84" rx="12" fill="#121A33" stroke="#A78BFA" stroke-opacity="0.6" stroke-width="1.4"/>
+<rect x="28" y="414" width="4" height="52" rx="2" fill="#A78BFA"/>
+<text x="48" y="432" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >System prompt says: extract only. No</text>
+<text x="48" y="451" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >calculating, judging or inferring.</text>
+<rect x="350" y="398" width="300" height="84" rx="12" fill="#121A33" stroke="#22D3EE" stroke-opacity="0.6" stroke-width="1.4"/>
+<rect x="350" y="414" width="4" height="52" rx="2" fill="#22D3EE"/>
+<text x="370" y="432" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >No API key, or the model flops? The</text>
+<text x="370" y="451" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >deterministic parser takes over and</text>
+<text x="370" y="470" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >the UI says so.</text>
+<rect x="672" y="398" width="300" height="84" rx="12" fill="#121A33" stroke="#FBBF24" stroke-opacity="0.6" stroke-width="1.4"/>
+<rect x="672" y="414" width="4" height="52" rx="2" fill="#FBBF24"/>
+<text x="692" y="432" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >llm_mapped is stamped only when the</text>
+<text x="692" y="451" font-size="13" fill="#E6EAF7" font-weight="500" text-anchor="start" >model was really called.</text>
+</svg>
