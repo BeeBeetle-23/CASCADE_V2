@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1004 534" width="1004" height="534" role="img" aria-labelledby="ttl dsc" font-family="'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif">
+<title id="ttl">Key features of CASCADE</title>
+<desc id="dsc">Twelve feature cards: cascade retraction, what-if simulator, truth values, validated LLM extraction, gap traffic lights, basis and tolerance guard, provenance, versioning, append-only audit, integrity checks, human in the loop and a ground-truth test suite.</desc>
+<defs>
+<linearGradient id="bgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B1020"/><stop offset="1" stop-color="#101A3C"/></linearGradient>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="#1D2850"/></pattern>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+
+<g transform="translate(2 2)">
+<rect x="0" y="0" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="0" y="0" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="0" y="18" width="4" height="86" rx="2" fill="#6366F1"/>
+<circle cx="38" cy="36" r="19" fill="#6366F1" fill-opacity="0.16" stroke="#6366F1" stroke-opacity="0.7"/>
+<g transform="translate(26.6 24.6) scale(0.95)" stroke="#6366F1" fill="#6366F1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5" r="2.6"/><circle cx="12" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M7.5 6.8 10.6 10.3M13.5 13.8 16.6 17.3" fill="none"/></g>
+<text x="70" y="42" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Cascade retraction</text>
+<text x="20" y="76" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Unverify a document and every claim, check and</text>
+<text x="20" y="93" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >metric that leaned on it re-evaluates. Nothing</text>
+<text x="20" y="110" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >is deleted.</text>
+<rect x="340" y="0" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="340" y="0" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="340" y="18" width="4" height="86" rx="2" fill="#22D3EE"/>
+<circle cx="378" cy="36" r="19" fill="#22D3EE" fill-opacity="0.16" stroke="#22D3EE" stroke-opacity="0.7"/>
+<g transform="translate(366.6 24.6) scale(0.95)" stroke="#22D3EE" fill="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.4"/><circle cx="6" cy="19" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="M12 7v4m0 0-6 5.5M12 11l6 5.5" fill="none"/></g>
+<text x="410" y="42" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >What-if simulator</text>
+<text x="360" y="76" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Pretend any document or claim is excluded and</text>
+<text x="360" y="93" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >watch the recommendation move. Live state never</text>
+<text x="360" y="110" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >changes.</text>
+<rect x="680" y="0" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="680" y="0" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="680" y="18" width="4" height="86" rx="2" fill="#34D399"/>
+<circle cx="718" cy="36" r="19" fill="#34D399" fill-opacity="0.16" stroke="#34D399" stroke-opacity="0.7"/>
+<g transform="translate(706.6 24.6) scale(0.95)" stroke="#34D399" fill="#34D399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="none"/><path d="M7.8 12.4 10.8 15.4 16.4 9" fill="none"/></g>
+<text x="750" y="42" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Truth values everywhere</text>
+<text x="700" y="76" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Every node is valid, unverified, unsupported or</text>
+<text x="700" y="93" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >unavailable. Missing data is never quietly</text>
+<text x="700" y="110" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >treated as zero.</text>
+<rect x="0" y="136" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="0" y="136" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="0" y="154" width="4" height="86" rx="2" fill="#A78BFA"/>
+<circle cx="38" cy="172" r="19" fill="#A78BFA" fill-opacity="0.16" stroke="#A78BFA" stroke-opacity="0.7"/>
+<g transform="translate(26.6 160.6) scale(0.95)" stroke="#A78BFA" fill="#A78BFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19.5 6v5.5c0 4.6-3.1 8-7.5 9.5-4.4-1.5-7.5-4.9-7.5-9.5V6z" fill="none"/><path d="M8.8 12 11 14.2 15.4 9.8" fill="none"/></g>
+<text x="70" y="178" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >LLM on a leash</text>
+<text x="20" y="212" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Seven validation gates. Every claim lands as</text>
+<text x="20" y="229" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >pending review, and extraction_mode says what</text>
+<text x="20" y="246" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >really ran.</text>
+<rect x="340" y="136" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="340" y="136" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="340" y="154" width="4" height="86" rx="2" fill="#FBBF24"/>
+<circle cx="378" cy="172" r="19" fill="#FBBF24" fill-opacity="0.16" stroke="#FBBF24" stroke-opacity="0.7"/>
+<g transform="translate(366.6 160.6) scale(0.95)" stroke="#FBBF24" fill="#FBBF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2.5" width="8" height="19" rx="4" fill="none"/><circle cx="12" cy="7.5" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="16.5" r="1.7"/></g>
+<text x="410" y="178" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Gap traffic lights</text>
+<text x="360" y="212" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Known credits explain the bank-vs-revenue gap.</text>
+<text x="360" y="229" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Green, amber or red, with the exact residual.</text>
+<rect x="680" y="136" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="680" y="136" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="680" y="154" width="4" height="86" rx="2" fill="#F87171"/>
+<circle cx="718" cy="172" r="19" fill="#F87171" fill-opacity="0.16" stroke="#F87171" stroke-opacity="0.7"/>
+<g transform="translate(706.6 160.6) scale(0.95)" stroke="#F87171" fill="#F87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M6 20h12M5 8h14" fill="none"/><path d="M5 8 2.5 14h5zM19 8l-2.5 6h5z" fill="none"/></g>
+<text x="750" y="178" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Basis &amp; tolerance guard</text>
+<text x="700" y="212" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Entity, period, currency and unit must match.</text>
+<text x="700" y="229" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >2% materiality plus a rounding tolerance.</text>
+<rect x="0" y="272" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="0" y="272" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="0" y="290" width="4" height="86" rx="2" fill="#6366F1"/>
+<circle cx="38" cy="308" r="19" fill="#6366F1" fill-opacity="0.16" stroke="#6366F1" stroke-opacity="0.7"/>
+<g transform="translate(26.6 296.6) scale(0.95)" stroke="#6366F1" fill="#6366F1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s6.5-5.7 6.5-11A6.5 6.5 0 0 0 5.5 10c0 5.3 6.5 11 6.5 11z" fill="none"/><circle cx="12" cy="10" r="2.3"/></g>
+<text x="70" y="314" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Granular provenance</text>
+<text x="20" y="348" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Document, version, page, verbatim excerpt,</text>
+<text x="20" y="365" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >bounding box and confidence on every claim.</text>
+<rect x="340" y="272" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="340" y="272" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="340" y="290" width="4" height="86" rx="2" fill="#22D3EE"/>
+<circle cx="378" cy="308" r="19" fill="#22D3EE" fill-opacity="0.16" stroke="#22D3EE" stroke-opacity="0.7"/>
+<g transform="translate(366.6 296.6) scale(0.95)" stroke="#22D3EE" fill="#22D3EE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="11" height="14" rx="2" fill="none"/><rect x="9.5" y="3" width="11" height="14" rx="2" fill="none"/></g>
+<text x="410" y="314" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Versions &amp; corrections</text>
+<text x="360" y="348" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Re-upload makes a new version with a claim-</text>
+<text x="360" y="365" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >level diff. Corrections supersede; old values</text>
+<text x="360" y="382" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >stay.</text>
+<rect x="680" y="272" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="680" y="272" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="680" y="290" width="4" height="86" rx="2" fill="#34D399"/>
+<circle cx="718" cy="308" r="19" fill="#34D399" fill-opacity="0.16" stroke="#34D399" stroke-opacity="0.7"/>
+<g transform="translate(706.6 296.6) scale(0.95)" stroke="#34D399" fill="#34D399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14M5 11h14M5 16h9" fill="none"/><circle cx="18" cy="17" r="2.2"/></g>
+<text x="750" y="314" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Append-only audit</text>
+<text x="700" y="348" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Every change is logged with before, after and</text>
+<text x="700" y="365" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >affected nodes. The ORM refuses edits and</text>
+<text x="700" y="382" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >deletes.</text>
+<rect x="0" y="408" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="0" y="408" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="0" y="426" width="4" height="86" rx="2" fill="#A78BFA"/>
+<circle cx="38" cy="444" r="19" fill="#A78BFA" fill-opacity="0.16" stroke="#A78BFA" stroke-opacity="0.7"/>
+<g transform="translate(26.6 432.6) scale(0.95)" stroke="#A78BFA" fill="#A78BFA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6" fill="none"/><path d="m15.2 15.2 5 5" fill="none"/></g>
+<text x="70" y="450" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Integrity checks</text>
+<text x="20" y="484" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Totals that don't add up, duplicate rows,</text>
+<text x="20" y="501" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >missing sections. Reported as notes, never as</text>
+<text x="20" y="518" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >fraud.</text>
+<rect x="340" y="408" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="340" y="408" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="340" y="426" width="4" height="86" rx="2" fill="#FBBF24"/>
+<circle cx="378" cy="444" r="19" fill="#FBBF24" fill-opacity="0.16" stroke="#FBBF24" stroke-opacity="0.7"/>
+<g transform="translate(366.6 432.6) scale(0.95)" stroke="#FBBF24" fill="#FBBF24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6" fill="none"/><path d="M4.8 20c.7-4 3.5-6 7.2-6s6.5 2 7.2 6" fill="none"/></g>
+<text x="410" y="450" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Human in the loop</text>
+<text x="360" y="484" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >Three outcomes, all pending review, biased</text>
+<text x="360" y="501" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >toward referral. No automated rejection.</text>
+<rect x="680" y="408" width="320" height="122" rx="14" fill="#0B1020" stroke="#26325A"/>
+<rect x="680" y="408" width="320" height="122" rx="14" fill="url(#dots)" opacity="0.45"/>
+<rect x="680" y="426" width="4" height="86" rx="2" fill="#F87171"/>
+<circle cx="718" cy="444" r="19" fill="#F87171" fill-opacity="0.16" stroke="#F87171" stroke-opacity="0.7"/>
+<g transform="translate(706.6 432.6) scale(0.95)" stroke="#F87171" fill="#F87171" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 3h5M10.5 3v6L5 19.3A1.3 1.3 0 0 0 6.1 21h11.8a1.3 1.3 0 0 0 1.1-1.7L13.5 9V3" fill="none"/><path d="M8 15h8" fill="none"/></g>
+<text x="750" y="450" font-size="15.5" fill="#E6EAF7" font-weight="800" text-anchor="start" >Ground-truth tests</text>
+<text x="700" y="484" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >47 tests over planted scenarios and synthetic</text>
+<text x="700" y="501" font-size="12" fill="#B7C0E4" font-weight="400" text-anchor="start" >PDFs, with a mocked LLM. No network needed.</text>
+</g></svg>
