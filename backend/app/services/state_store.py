@@ -36,16 +36,28 @@ def load_engine(db: Session, app: m.Application) -> Engine:
     db.flush()
     docs = db.scalars(select(m.Document).where(m.Document.application_id == app.id)).all()
     verification, values, bases = {}, {}, {}
+    doc_periods = {}
     for d in docs:
         node, v = doc_node(d), current_version(db, d.id)
         if node and v:
             verification[node] = "verified" if v.verification_status == "verified" else "unverified"
+            if v.reporting_period:
+                doc_periods[d.id] = v.reporting_period
+
+    from .text_utils import normalize_period
+    app_fy = normalize_period(app.reporting_period) or app.reporting_period
+
     for c in current_claims(db, app.id):
         if c.node_id not in ALL_CLAIM_NODES or c.value is None: continue
         values[c.node_id] = Decimal(c.value)
         verification[c.node_id] = "verified" if c.verification_status == "verified" else "unverified"
-        period = f"{c.period_start}/{c.period_end}" if c.period_start and c.period_end else app.reporting_period
-        bases[c.node_id] = rules.Basis(c.entity_id, period, c.currency, c.unit)
+        
+        # Derive period: claim period -> document version period -> application reporting period
+        claim_p = f"{c.period_start}/{c.period_end}" if c.period_start and c.period_end else None
+        doc_p = doc_periods.get(c.source_document_id)
+        raw_period = claim_p or doc_p or app_fy
+        norm_period = normalize_period(raw_period) or raw_period
+        bases[c.node_id] = rules.Basis(c.entity_id, norm_period, c.currency, c.unit)
     return Engine(app.scenario_key, values=values, verification=verification, bases=bases)
 
 

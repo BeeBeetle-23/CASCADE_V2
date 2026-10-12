@@ -7,6 +7,7 @@ from .enums import ExtractionMode, VerificationStatus
 
 ALLOWED_CLAIM_TYPES = {
     "bank_inflow_total", "internal_transfer", "loan_proceeds", "refund_or_other_credit",
+    "owner_equity_contribution",
     "gross_revenue_tax", "gross_revenue_pnl", "cash_available_for_debt_service",
     "scheduled_debt_service", "current_assets", "current_liabilities",
 }
@@ -54,6 +55,7 @@ class ExtractedClaimCandidate(BaseModel):
     value: Decimal
     currency: str = Field(pattern=r"^[A-Za-z]{3}$")
     unit: str = Field(min_length=1, max_length=20)
+    period: Optional[str] = None
     period_start: Optional[date] = None
     period_end: Optional[date] = None
     page_number: int = Field(ge=1)
@@ -65,6 +67,15 @@ class ExtractedClaimCandidate(BaseModel):
     def _check(self):
         if self.claim_type not in ALLOWED_CLAIM_TYPES:
             raise ValueError(f"unsupported claim_type {self.claim_type!r}")
+        if self.period:
+            import re
+            from datetime import date as dt_date
+            # Check for FY pattern: FY2025-26
+            m_fy = re.search(r"FY(\d{4})", self.period, re.I)
+            if m_fy:
+                y = int(m_fy.group(1))
+                if not self.period_start: self.period_start = dt_date(y, 4, 1)
+                if not self.period_end: self.period_end = dt_date(y + 1, 3, 31)
         if self.period_start and self.period_end and self.period_end < self.period_start:
             raise ValueError("period_end precedes period_start")
         self.currency = self.currency.upper()

@@ -1,15 +1,21 @@
+import type { ReactNode } from "react";
 import type { DashboardSummary, GraphPayload } from "../../types";
 import { KIND_LABEL, TONE_CLASSES, recommendationLabel, recommendationTone, statusLabel, toneOf } from "../../lib/status";
 import { StatusBadge } from "../StatusBadge";
 
-type Props = { summary: DashboardSummary | null; graph: GraphPayload; selectedId: string | null };
+type Props = {
+  summary: DashboardSummary | null;
+  graph: GraphPayload;
+  selectedId: string | null;
+  uploadSlot?: ReactNode;
+};
 
 const METRICS = [
   { id: "m_dscr", name: "DSCR", hint: "Cash available ÷ scheduled debt service" },
   { id: "m_cr", name: "Current ratio", hint: "Current assets ÷ current liabilities" },
 ];
 
-export function Dashboard({ summary, graph, selectedId }: Props) {
+export function Dashboard({ summary, graph, selectedId, uploadSlot }: Props) {
   const label = (id: string) => graph.nodes.find((n) => n.id === id)?.data.label ?? id;
   const rec = summary?.recommendation ?? graph.recommendation;
   const recTone = TONE_CLASSES[recommendationTone(rec.value)];
@@ -26,6 +32,8 @@ export function Dashboard({ summary, graph, selectedId }: Props) {
           </p>
         </div>
       )}
+
+      {uploadSlot}
 
       <section aria-labelledby="rec-h">
         <h2 id="rec-h" className="text-sm font-semibold text-ink-2">Recommendation</h2>

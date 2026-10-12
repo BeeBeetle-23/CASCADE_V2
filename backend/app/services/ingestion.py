@@ -112,23 +112,37 @@ def process_version(db: Session, app: m.Application, doc: m.Document, ver: m.Doc
     diags += integrity.check_pages(ex.pages, doc.doc_type)
     if tu.normalize_ws(app.company_name) not in tu.normalize_ws(full):
         diags.append(finding("warning", "entity_name_not_found", f"Company name '{app.company_name}' was not found in the document text; check the entity."))
-    res = map_claims(ex.pages, doc.doc_type, use_llm=use_llm, api_key=settings.anthropic_api_key, model=settings.anthropic_model, client=client)
+    res = map_claims(ex.pages, doc.doc_type, use_llm=use_llm, api_key=settings.gemini_api_key, model=settings.gemini_model, client=client)
     diags += res.diagnostics
     previous = {c.claim_type: c for c in current_claims(db, app.id) if c.source_document_id == doc.id}
     for c in previous.values(): c.is_current = False       # preserved, flagged superseded
     mode = res.mode if res.mode != "deterministic_fallback" else "deterministic_fallback"
+    # Detect document-level period from text or application
+    doc_fy_dates = tu.detect_fy(full)
+    norm_doc_period = tu.normalize_period(full) or tu.normalize_period(app.reporting_period)
+    def_p_start, def_p_end = (doc_fy_dates[0], doc_fy_dates[1]) if doc_fy_dates else (None, None)
+    if not def_p_start and norm_doc_period:
+        m_fy = re.search(r"FY(\d{4})", norm_doc_period)
+        if m_fy:
+            y = int(m_fy.group(1))
+            from datetime import date
+            def_p_start, def_p_end = date(y, 4, 1), date(y + 1, 3, 31)
+
     for a in res.accepted:
         c = a.cand
+        # Normalize claim dates or fall back to document period
+        p_start = c.period_start or def_p_start
+        p_end = c.period_end or def_p_end
+
         row = m.Claim(application_id=app.id, entity_id=app.entity_id, node_id=NODE_FOR_CLAIM_TYPE[c.claim_type],
                       claim_type=c.claim_type, value=a.value_lakh, currency=c.currency, unit=a.unit_out,
-                      period_start=c.period_start, period_end=c.period_end, source_document_id=doc.id,
+                      period_start=p_start, period_end=p_end, source_document_id=doc.id,
                       document_version_id=ver.id, page_number=c.page_number, source_excerpt=c.source_excerpt,
                       bbox=c.bbox.model_dump() if c.bbox else None, confidence=c.confidence, extraction_mode=mode,
                       verification_status="pending_review", supersedes_claim_id=previous[c.claim_type].id if c.claim_type in previous else None)
         db.add(row)
     db.flush()
-    periods = [a.cand.period_start for a in res.accepted if a.cand.period_start]
-    ver.reporting_period = f"{periods[0]}/{res.accepted[0].cand.period_end}" if periods else None
+    ver.reporting_period = norm_doc_period or (f"{def_p_start}/{def_p_end}" if def_p_start and def_p_end else None)
     ver.extraction_mode = mode
     ver.processing_status = "review_required"
     if not res.accepted: diags.append(finding("warning", "no_claims_extracted", "No claims could be extracted; review the document manually."))

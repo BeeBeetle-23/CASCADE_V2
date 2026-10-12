@@ -18,7 +18,7 @@ log = logging.getLogger("cascade")
 async def lifespan(_: FastAPI):
     create_schema()
     with SessionLocal() as db: seed_demo(db)
-    log.info("CASCADE ready (LLM %s)", "configured" if settings.anthropic_api_key else "not configured; deterministic fallback")
+    log.info("CASCADE ready (LLM %s)", "configured" if settings.gemini_api_key else "not configured; deterministic fallback")
     yield
 
 
@@ -45,7 +45,7 @@ async def unhandled(_: Request, e: Exception):
 
 @app.get("/health", tags=["health"])
 def health():
-    return {"status": "ok", "llm_configured": bool(settings.anthropic_api_key), "database": settings.database_url.split(":")[0]}
+    return {"status": "ok", "llm_configured": bool(settings.gemini_api_key), "database": settings.database_url.split(":")[0]}
 
 
 app.include_router(api)

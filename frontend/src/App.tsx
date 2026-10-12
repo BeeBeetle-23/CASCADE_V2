@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, Loader2, X } from "lucide-react";
+import { AlertCircle, FileUp, Loader2, X } from "lucide-react";
 import { api } from "./api/client";
-import type { DashboardSummary, GraphPayload, ScenarioKey, SimulationResult } from "./types";
+import type { ApplicationSummary, DashboardSummary, GraphPayload, ScenarioKey, SimulationResult } from "./types";
 import { isEvidence } from "./lib/status";
-import { ControlBar } from "./components/ControlBar";
+import { ControlBar, type CustomScenarioTab } from "./components/ControlBar";
 import { Dashboard } from "./components/Dashboard";
 import { GraphCanvas } from "./components/GraphCanvas";
+import { DeleteScenarioModal } from "./components/DeleteScenarioModal";
+import { NewScenarioModal } from "./components/NewScenarioModal";
 import { SimulationModal } from "./components/SimulationModal";
+import { UploadPanel } from "./components/UploadPanel";
 
 type Busy = "scenario" | "reset" | "simulate" | null;
 
@@ -19,6 +22,10 @@ export default function App() {
   const [busy, setBusy] = useState<Busy>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [customApps, setCustomApps] = useState<ApplicationSummary[]>([]);
+  const [activeTabKey, setActiveTabKey] = useState<string>("A");
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const scenario: ScenarioKey = graph?.scenario_key ?? "A";
   const message = (e: unknown) => (e instanceof Error ? e.message : "Something went wrong.");
@@ -33,8 +40,10 @@ export default function App() {
     try {
       const apps = await api.listApplications();
       if (apps.length === 0) throw new Error("The backend has no applications yet. Load a scenario to begin.");
+      setCustomApps(apps.slice(1));
       const g = await api.getGraph(apps[0].id);
       setGraph(g);
+      setActiveTabKey(g.scenario_key ?? "A");
       await refreshSummary(g.application_id);
     } catch (e) {
       setError(message(e));
@@ -62,6 +71,50 @@ export default function App() {
     }
   };
 
+  const selectCustom = async (appId: string) => {
+    setActiveTabKey(appId);
+    setBusy("scenario");
+    setError(null);
+    try {
+      const g = await api.getGraph(appId);
+      setGraph(g);
+      setSelectedId(null);
+      await refreshSummary(appId);
+    } catch (e) {
+      setError(message(e));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const handleScenarioCreated = async (newApp: ApplicationSummary) => {
+    setCustomApps((prev) => [...prev, newApp]);
+    setActiveTabKey(newApp.id);
+    setBusy("scenario");
+    setError(null);
+    try {
+      const g = await api.getGraph(newApp.id);
+      setGraph(g);
+      setSelectedId(null);
+      await refreshSummary(newApp.id);
+    } catch (e) {
+      setError(message(e));
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const handleDeleteScenario = async () => {
+    if (!graph) return;
+    const targetId = graph.application_id;
+    await api.deleteApplication(targetId);
+    setCustomApps((prev) => prev.filter((a) => a.id !== targetId));
+    setShowDeleteModal(false);
+    setActiveTabKey("A");
+    void run("scenario", () => api.loadScenario("A"));
+  };
+
+
   const simulate = async () => {
     if (!graph) return;
     setBusy("simulate");
@@ -80,6 +133,15 @@ export default function App() {
     const node = graph?.nodes.find((n) => n.id === id);
     if (node && isEvidence(node.data.node_type)) setTarget(node.id);
   };
+
+  const customTabs: CustomScenarioTab[] = customApps.map((app, i) => ({
+    id: app.id,
+    label: `Scenario ${String.fromCharCode(68 + i)}`,
+    companyName: app.company_name,
+  }));
+
+  const isCustom = graph ? graph.scenario_key === null : false;
+  const isEmptyCustom = isCustom && (summary?.application.document_count ?? 0) === 0;
 
   if (loading) {
     return (
@@ -111,10 +173,21 @@ export default function App() {
         nodes={graph.nodes}
         target={target}
         busy={busy}
-        onScenario={(k) => void run("scenario", () => api.loadScenario(k))}
+        onScenario={(k) => {
+          setActiveTabKey(k);
+          void run("scenario", () => api.loadScenario(k));
+        }}
         onReset={() => void run("reset", () => api.reset(scenario))}
         onTarget={setTarget}
         onSimulate={() => void simulate()}
+        customTabs={customTabs}
+        activeKey={activeTabKey}
+        onNewScenario={() => setShowNewModal(true)}
+        onSelectCustom={(id) => void selectCustom(id)}
+        disableReset={isCustom}
+        disableSimulate={isEmptyCustom}
+        isCustom={isCustom}
+        onDelete={() => setShowDeleteModal(true)}
       />
 
       {error && (
@@ -128,13 +201,60 @@ export default function App() {
       )}
 
       <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
-        <Dashboard summary={summary} graph={graph} selectedId={selectedId} />
+        <Dashboard
+          summary={summary}
+          graph={graph}
+          selectedId={selectedId}
+          uploadSlot={
+            isCustom && graph ? (
+              <UploadPanel
+                key={graph.application_id}
+                appId={graph.application_id}
+                disabled={busy !== null}
+                onRefreshGraph={async () => {
+                  const g = await api.getGraph(graph.application_id);
+                  setGraph(g);
+                  await refreshSummary(graph.application_id);
+                }}
+                onCascadeAccept={async () => {
+                  const g = await api.getGraph(graph.application_id);
+                  setGraph(g);
+                  setSelectedId(null);
+                  await refreshSummary(graph.application_id);
+                }}
+              />
+            ) : undefined
+          }
+        />
         <div className="min-h-[480px] flex-1">
-          <GraphCanvas graph={graph} selectedId={selectedId} onSelect={select} />
+          {isEmptyCustom ? (
+            <div className="flex h-full flex-col items-center justify-center gap-3 bg-paper p-6 text-center">
+              <FileUp size={40} className="text-muted" aria-hidden />
+              <p className="max-w-md text-sm text-ink-2">
+                No data yet. Drop PDFs into the panel on the left to build this graph.
+              </p>
+            </div>
+          ) : (
+            <GraphCanvas graph={graph} selectedId={selectedId} onSelect={select} />
+          )}
         </div>
       </main>
 
       {simulation && <SimulationModal result={simulation} live={graph} onClose={() => setSimulation(null)} />}
+      {showNewModal && (
+        <NewScenarioModal
+          onClose={() => setShowNewModal(false)}
+          onSuccess={(app) => void handleScenarioCreated(app)}
+        />
+      )}
+      {showDeleteModal && (
+        <DeleteScenarioModal
+          scenarioName={summary?.application.company_name ?? "this scenario"}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeleteScenario}
+        />
+      )}
     </div>
   );
 }
+

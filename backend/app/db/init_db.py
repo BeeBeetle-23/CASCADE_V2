@@ -16,7 +16,8 @@ DOC_FIXTURES = {  # graph doc node -> (doc type, filename)
 }
 CLAIM_TYPES = {
     "c_bank_inflow": "bank_inflow_total", "a_internal": "internal_transfer", "a_loan": "loan_proceeds",
-    "a_refund": "refund_or_other_credit", "c_tax_rev": "gross_revenue_tax", "c_pnl_rev": "gross_revenue_pnl",
+    "a_refund": "refund_or_other_credit", "a_equity": "owner_equity_contribution",
+    "c_tax_rev": "gross_revenue_tax", "c_pnl_rev": "gross_revenue_pnl",
     "c_cfads": "cash_available_for_debt_service", "c_ds": "scheduled_debt_service",
     "c_ca": "current_assets", "c_cl": "current_liabilities",
 }

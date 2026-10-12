@@ -148,3 +148,19 @@ def test_llm_mapping_is_validated_and_mocked():
         raise RateLimitError()
     r = map_claims(pages, "income_tax_return", use_llm=True, api_key=None, model="m", client=SimpleNamespace(messages=SimpleNamespace(create=boom)))
     assert r.mode == "deterministic_fallback" and any(d["code"] == "llm_rate_limited" for d in r.diagnostics)
+
+
+def test_delete_application(client):
+    assert client.delete("/applications/app_alpha_tech").status_code == 403
+    res = client.post("/applications", json={"company_name": "Delete Me", "requested_amount": 100, "reporting_period": "FY2025-26"}).json()
+    app_id = res["id"]
+    from pathlib import Path
+    pnl = Path(__file__).parent.parent / "sample_docs" / "alpha_pnl.pdf"
+    if pnl.exists():
+        up = client.post(f"/applications/{app_id}/documents", files={"file": ("pnl.pdf", pnl.read_bytes(), "application/pdf")})
+        assert up.status_code == 201
+    del_res = client.delete(f"/applications/{app_id}")
+    assert del_res.status_code == 200
+    assert del_res.json()["status"] == "deleted"
+    assert client.get(f"/applications/{app_id}").status_code == 404
+

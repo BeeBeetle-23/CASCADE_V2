@@ -1,6 +1,12 @@
-import { FlaskConical, Loader2, RotateCcw } from "lucide-react";
+import { FlaskConical, Loader2, Plus, RotateCcw, Trash2 } from "lucide-react";
 import type { RFNode, ScenarioKey } from "../../types";
 import { KIND_LABEL, SCENARIOS, isEvidence } from "../../lib/status";
+
+export type CustomScenarioTab = {
+  id: string;
+  label: string;
+  companyName: string;
+};
 
 type Props = {
   scenario: ScenarioKey;
@@ -11,9 +17,34 @@ type Props = {
   onReset: () => void;
   onTarget: (id: string) => void;
   onSimulate: () => void;
+  customTabs?: CustomScenarioTab[];
+  activeKey?: string;
+  onNewScenario?: () => void;
+  onSelectCustom?: (id: string) => void;
+  disableReset?: boolean;
+  disableSimulate?: boolean;
+  isCustom?: boolean;
+  onDelete?: () => void;
 };
 
-export function ControlBar({ scenario, nodes, target, busy, onScenario, onReset, onTarget, onSimulate }: Props) {
+export function ControlBar({
+  scenario,
+  nodes,
+  target,
+  busy,
+  onScenario,
+  onReset,
+  onTarget,
+  onSimulate,
+  customTabs = [],
+  activeKey,
+  onNewScenario,
+  onSelectCustom,
+  disableReset = false,
+  disableSimulate = false,
+  isCustom = false,
+  onDelete,
+}: Props) {
   const evidence = nodes.filter((n) => isEvidence(n.data.node_type));
   const disabled = busy !== null;
   return (
@@ -22,7 +53,7 @@ export function ControlBar({ scenario, nodes, target, busy, onScenario, onReset,
 
       <div role="radiogroup" aria-label="Scenario" className="flex overflow-hidden rounded-md border border-line">
         {SCENARIOS.map((s) => {
-          const active = s.key === scenario;
+          const active = activeKey !== undefined ? activeKey === s.key : s.key === scenario;
           return (
             <button
               key={s.key}
@@ -40,16 +71,58 @@ export function ControlBar({ scenario, nodes, target, busy, onScenario, onReset,
             </button>
           );
         })}
+        {customTabs.map((s) => {
+          const active = activeKey === s.id;
+          return (
+            <button
+              key={s.id}
+              role="radio"
+              aria-checked={active}
+              title={s.companyName}
+              disabled={disabled}
+              onClick={() => !active && onSelectCustom?.(s.id)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-colors disabled:cursor-not-allowed ${
+                active ? "bg-ink text-white" : "bg-panel text-ink-2 hover:bg-paper"
+              }`}
+            >
+              {busy === "scenario" && active && <Loader2 size={13} className="animate-spin" aria-hidden />}
+              {s.label}
+            </button>
+          );
+        })}
       </div>
 
       <button
-        onClick={onReset}
-        disabled={disabled}
-        className="flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm font-medium text-ink-2 hover:bg-paper disabled:cursor-not-allowed disabled:opacity-60"
+        onClick={onNewScenario}
+        disabled={disabled || customTabs.length >= 23}
+        aria-label="New scenario"
+        title="New scenario"
+        className="flex items-center gap-1.5 rounded-md border border-line px-2.5 py-1.5 text-sm font-medium text-ink-2 hover:bg-paper disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {busy === "reset" ? <Loader2 size={14} className="animate-spin" aria-hidden /> : <RotateCcw size={14} aria-hidden />}
-        Reset scenario
+        <Plus size={14} aria-hidden />
       </button>
+
+      {isCustom ? (
+        <button
+          onClick={onDelete}
+          disabled={disabled}
+          title="Delete scenario"
+          className="flex items-center gap-1.5 rounded-md border border-bad/40 px-3 py-1.5 text-sm font-medium text-bad hover:bg-bad-soft disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <Trash2 size={14} aria-hidden />
+          Delete scenario
+        </button>
+      ) : (
+        <button
+          onClick={onReset}
+          disabled={disabled || disableReset}
+          title={disableReset ? "Reset applies to demo scenarios only" : undefined}
+          className="flex items-center gap-1.5 rounded-md border border-line px-3 py-1.5 text-sm font-medium text-ink-2 hover:bg-paper disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {busy === "reset" ? <Loader2 size={14} className="animate-spin" aria-hidden /> : <RotateCcw size={14} aria-hidden />}
+          Reset scenario
+        </button>
+      )}
 
       <div className="ml-auto flex flex-wrap items-center gap-2">
         <label htmlFor="sim-target" className="text-sm text-ink-2">
@@ -70,7 +143,7 @@ export function ControlBar({ scenario, nodes, target, busy, onScenario, onReset,
         </select>
         <button
           onClick={onSimulate}
-          disabled={disabled || !target}
+          disabled={disabled || !target || disableSimulate}
           className="flex items-center gap-1.5 rounded-md bg-trail px-3.5 py-1.5 text-sm font-semibold text-white hover:bg-trail/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {busy === "simulate" ? <Loader2 size={14} className="animate-spin" aria-hidden /> : <FlaskConical size={14} aria-hidden />}

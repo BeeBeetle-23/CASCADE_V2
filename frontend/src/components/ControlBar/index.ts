@@ -1,1 +1,2 @@
-export { ControlBar } from "./ControlBar";
+export { ControlBar, type CustomScenarioTab } from "./ControlBar";
+

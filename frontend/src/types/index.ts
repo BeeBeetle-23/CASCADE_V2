@@ -117,3 +117,105 @@ export type DashboardSummary = {
 };
 
 export type ApiErrorBody = { error: string; detail?: unknown };
+
+export type DocumentType =
+  | "bank_statement"
+  | "income_tax_return"
+  | "profit_and_loss"
+  | "unknown";
+
+export type DocumentDiagnostic = {
+  level: string;
+  code: string;
+  message: string;
+  page?: number;
+};
+
+export type DocumentVersionOut = {
+  id: string;
+  document_id: string;
+  version_number: number;
+  original_filename: string;
+  file_hash: string;
+  uploaded_at: string;
+  processing_status: string;
+  verification_status: string;
+  reporting_period: string | null;
+  is_current: boolean;
+  page_count: number | null;
+  diagnostics: DocumentDiagnostic[];
+  extraction_mode: string | null;
+};
+
+export type DocumentOut = {
+  id: string;
+  application_id: string;
+  doc_type: DocumentType;
+  type_confirmed: boolean;
+  created_at: string;
+  versions: DocumentVersionOut[];
+};
+
+export type VersionDiffItem = {
+  claim_type: string;
+  old_value: string | null;
+  new_value: string | null;
+  changed: boolean;
+};
+
+export type VersionDiff = {
+  document_id: string;
+  old_version_id: string;
+  new_version_id: string;
+  items: VersionDiffItem[];
+  affected_node_ids: string[];
+};
+
+export type UploadWarning = {
+  level: string;
+  code: string;
+  message: string;
+  [key: string]: unknown;
+};
+
+export type UploadResult = {
+  document: DocumentOut;
+  extraction_mode: "llm_mapped" | "deterministic_fallback" | null;
+  claims_created: number;
+  warnings: UploadWarning[];
+  needs_type_confirmation: boolean;
+  cascade: unknown;
+  diff: VersionDiff | null;
+};
+
+export type ClaimOut = {
+  id: string;
+  application_id: string;
+  entity_id: string;
+  node_id: string;
+  claim_type: string;
+  value: string | number | null;
+  currency: string;
+  unit: string;
+  period_start: string | null;
+  period_end: string | null;
+  source_document_id: string;
+  document_version_id: string;
+  page_number: number | null;
+  source_excerpt: string | null;
+  bbox: unknown;
+  confidence: number | null;
+  extraction_mode: string;
+  verification_status: string;
+  supersedes_claim_id: string | null;
+  created_at: string;
+  modified_at: string;
+};
+
+export type CreateApplicationBody = {
+  company_name: string;
+  requested_amount: number;
+  currency?: string;
+  reporting_period?: string;
+};
+

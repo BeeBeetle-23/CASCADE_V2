@@ -46,6 +46,48 @@ def detect_fy(text: str) -> Optional[tuple[date, date]]:
     y = int(m.group(1)); return date(y, 4, 1), date(y + 1, 3, 31)
 
 
+def normalize_period(s: Optional[str]) -> Optional[str]:
+    """Normalize any period string to the standard FY label 'FYxxxx-yy'."""
+    if not s: return None
+    s = str(s).strip()
+
+    # AY check: AY2026-27 or Assessment Year 2026-27 (AY maps to previous FY)
+    m_ay = re.search(r"(?:AY|Assessment\s+Year)\s*(\d{4})\s*[-–/]\s*(\d{2,4})", s, re.I)
+    if m_ay:
+        y = int(m_ay.group(1)) - 1
+        return f"FY{y}-{str(y+1)[-2:]}"
+
+    # FY check: FY2025-26, Financial Year 2025-26, FY 2025-26
+    m_fy = re.search(r"(?:FY|F\.Y\.?|Financial\s+Year)\s*(\d{4})\s*[-–/]\s*(\d{2,4})", s, re.I)
+    if m_fy:
+        y = int(m_fy.group(1))
+        return f"FY{y}-{str(y+1)[-2:]}"
+
+    # Year ended 31 March 2026 / 31st March 2026
+    m_ended = re.search(r"year\s+ended\s+(?:31st?|31)\s+march\s+(\d{4})", s, re.I)
+    if m_ended:
+        y_end = int(m_ended.group(1))
+        return f"FY{y_end-1}-{str(y_end)[-2:]}"
+
+    # 2025-26 / 2025-2026
+    m_plain = re.search(r"\b(\d{4})\s*[-–/]\s*(\d{2,4})\b", s)
+    if m_plain:
+        y = int(m_plain.group(1))
+        y2 = int(m_plain.group(2))
+        if y2 < 100: y2 = (y // 100) * 100 + y2
+        if y2 == y + 1:
+            return f"FY{y}-{str(y+1)[-2:]}"
+
+    # Date format: 2025-04-01 to 2026-03-31 or 2025-05-14
+    m_date = re.search(r"\b(\d{4})-(\d{2})-(\d{2})\b", s)
+    if m_date:
+        y, m = int(m_date.group(1)), int(m_date.group(2))
+        fy_start = y if m >= 4 else y - 1
+        return f"FY{fy_start}-{str(fy_start+1)[-2:]}"
+
+    return s
+
+
 def detect_currency(text: str) -> str:
     return "USD" if ("USD" in text or "$" in text) and "INR" not in text and "₹" not in text else "INR"
 

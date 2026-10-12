@@ -5,8 +5,8 @@ services:
     environment:
       DATABASE_URL: sqlite:////data/cascade.db          # zero-config default
       UPLOAD_DIR: /data/uploads
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}           # optional; empty = deterministic fallback
-      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-sonnet-4-6}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}           # optional; empty = deterministic fallback
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
     volumes: ["cascade_data:/data"]
   # Optional PostgreSQL:  docker compose --profile postgres up -d db
   # then set DATABASE_URL=postgresql+psycopg://cascade:cascade@localhost:5432/cascade (local) for the API.

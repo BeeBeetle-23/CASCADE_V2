@@ -1,8 +1,13 @@
+import logging
 import re
+import shutil
+from pathlib import Path
 from fastapi import APIRouter, Depends, Query
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import Session
 from app.api.deps import get_app
+from app.core.config import settings
+from app.core.errors import DomainError
 from app.db import models as m
 from app.db.init_db import seed_scenario
 from app.db.session import get_db
@@ -11,6 +16,7 @@ from app.schemas import (ApplicationCreate, ApplicationOut, ApplicationSummary, 
 from app.services import workflow
 from app.services.state_store import current_claims, load_engine, persist_snapshot, record_audit
 
+log = logging.getLogger("cascade.applications")
 router = APIRouter(tags=["applications"])
 ATTENTION = ("unverified", "unsupported", "unavailable", "red", "amber", "needs_review", "incomplete", "stale")
 
@@ -47,6 +53,51 @@ def create_application(body: ApplicationCreate, db: Session = Depends(get_db)):
 @router.get("/applications/{application_id}", response_model=ApplicationSummary)
 def get_application(app: m.Application = Depends(get_app), db: Session = Depends(get_db)):
     return _summary(db, app)
+
+
+@router.delete("/applications/{application_id}")
+def delete_application(app: m.Application = Depends(get_app), db: Session = Depends(get_db)):
+    if app.scenario_key in ("A", "B", "C") or app.id == "app_alpha_tech":
+        raise DomainError(403, "Cannot delete demo scenarios A/B/C")
+
+    app_id = app.id
+    storage_paths = []
+    versions = db.scalars(
+        select(m.DocumentVersion.storage_path)
+        .join(m.Document)
+        .where(m.Document.application_id == app_id)
+    ).all()
+    storage_paths = [p for p in versions if p]
+
+    # Delete all DB rows within a transaction
+    db.execute(delete(m.AuditEvent).where(m.AuditEvent.application_id == app_id))
+    db.execute(delete(m.SimulationRun).where(m.SimulationRun.application_id == app_id))
+    db.execute(delete(m.ReconciliationCheck).where(m.ReconciliationCheck.application_id == app_id))
+    db.execute(delete(m.GraphEdge).where(m.GraphEdge.application_id == app_id))
+    db.execute(delete(m.GraphNode).where(m.GraphNode.application_id == app_id))
+    db.execute(delete(m.Claim).where(m.Claim.application_id == app_id))
+    for doc in list(db.scalars(select(m.Document).where(m.Document.application_id == app_id))):
+        db.delete(doc)
+    db.delete(app)
+    db.commit()
+
+    # Clean up uploaded files on disk for that scenario
+    try:
+        app_dir = Path(settings.upload_dir) / app_id
+        if app_dir.exists():
+            shutil.rmtree(app_dir, ignore_errors=True)
+        for sp in storage_paths:
+            try:
+                p = Path(sp)
+                if p.exists() and p.is_file():
+                    p.unlink(missing_ok=True)
+            except Exception as e:
+                log.warning("Failed to delete file %s: %s", sp, e)
+    except Exception as e:
+        log.warning("Failed to delete files for application %s: %s", app_id, e)
+
+    return {"status": "deleted", "id": app_id}
+
 
 
 @router.get("/applications/{application_id}/summary")

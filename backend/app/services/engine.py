@@ -22,7 +22,8 @@ CLAIMS = {  # node -> (label, source doc node, why the claim depends on the doc)
     "c_cl": ("Current liabilities", "doc_pnl", "Reported in P&L / financial statements"),
 }
 ADJ = {"a_internal": "Verified internal transfers", "a_loan": "Verified loan proceeds",
-       "a_refund": "Verified refunds / other non-revenue credits"}
+       "a_refund": "Verified refunds / other non-revenue credits",
+       "a_equity": "Verified owner / director equity contribution"}
 ALL_CLAIM_NODES = set(CLAIMS) | set(ADJ)
 
 
